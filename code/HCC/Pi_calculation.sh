@@ -2,20 +2,21 @@
 #SBATCH --partition=batch
 #SBATCH --ntasks-per-node=4
 #SBATCH --nodes=1
-#SBATCH --time=7-00:00:00
+#SBATCH --time=20:00:00
 #SBATCH --mem-per-cpu=30G
 #SBATCH --job-name=pi
 #SBATCH --error=job/job.%A_%a.out
 #SBATCH --output=job/job.%A_%a.err
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=mgrzybowski2@unl.edu
-#SBATCH --array=1-1
+#SBATCH --array=1-100%50
 
 # 1. Call variant and invariant site
 ml anaconda
 conda activate gatk4
 ml bcftools
 ml tabix
+
 
 samplesheet="reg.txt"
 
@@ -100,10 +101,33 @@ conda activate pixy
 pixy --stats pi fst dxy \
 --vcf /scratch/Variants.vcf.gz \
 --populations pop.txt \
---window_size 5000 \
+--window_size 10000 \
 --n_cores 4 \
 --output_folder results \
 --output_prefix Reg_${chr}_${Start}_${End} \
 --chromosomes ${chr} \
---interval_start ${Start} \ 
+--interval_start ${Start} \
 --interval_end ${End}
+
+pixy --stats pi fst dxy \
+--vcf /scratch/Variants.vcf.gz \
+--populations pop2.txt \
+--window_size 10000 \
+--n_cores 4 \
+--output_folder results \
+--output_prefix Reg_${chr}_${Start}_${End}_All \
+--chromosomes ${chr} \
+--interval_start ${Start} \
+--interval_end ${End}
+
+pixy --stats pi fst dxy \
+--vcf /scratch/Variants.vcf.gz \
+--populations pop3.txt \
+--window_size 10000 \
+--n_cores 4 \
+--output_folder results \
+--output_prefix Reg_${chr}_${Start}_${End}_Bugeater \
+--chromosomes ${chr} \
+--interval_start ${Start} \
+--interval_end ${End}
+
