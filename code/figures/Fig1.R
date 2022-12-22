@@ -4,7 +4,7 @@ library(ggsci)
 library(patchwork)
 library(scales)
 
-theme_set(theme_classic(base_size = 12))
+theme_set(theme_classic(base_size = 16))
 theme_update(axis.text = element_text(colour = "black"))
 
 ### SNP denisty across genome
