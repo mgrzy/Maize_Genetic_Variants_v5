@@ -5,8 +5,10 @@ library(ggsci)
 library(scales)
 library(ggrepel)
 library(ggformula)
+library(maps)
+library(geosphere)
 
-# Set plot basic parameters 
+### Set plot basic parameters 
 theme_set(theme_classic(base_size = 16))
 theme_update(axis.text = element_text(colour = "black"))
 
@@ -14,7 +16,7 @@ my_pal <- pal_d3("category20")(11)
 my_pal[5] <- "#7F7F7FFF"
 my_pal[8] <- "#9467BDFF"
 
-
+###
 dat <- fread("data/TableS1.csv")
 
 ### Map
@@ -50,6 +52,8 @@ gAll <- gAll + plot_layout(guides = "collect")
 ### LD decay plot
 
 LD <- fread("../BigResults/maizesnpV5/LD/LD.csv.gz", data.table = F)
+
+LD$Group[LD$Group=="Temperate"] <- "Northern temperate"
   
 gLD <- ggplot() + 
   geom_spline(data=LD[!LD$Group=="WiDiv",], aes(Dist, LD, colour=Group), size=1.5) + 
@@ -58,12 +62,15 @@ gLD <- ggplot() +
                      breaks = 10^3 * c(50, 100, 150, 200)) + 
   xlab("Distance (Kb)") + 
   scale_color_manual(values = pal_d3()(6)[c(1,2,4,3,5,6)]) + 
-  theme(legend.position=c(.9, .8)) +
+  theme(legend.position=c(.8, .8)) +
   scale_alpha_identity()
 
 ### Nucleotide diversity plot
 
-div <- read.csv("data/Diversity/Diversity.csv")
+div <- read.csv("../BigResults/maizesnpV5/NucleotideDiversity/Summary/ND.csv.gz")
+colnames(div)[c(1,5)] <- c("Group", "PI")
+
+div$Group[div$Group=="Bugeater"] <- "WiDiv"
 
 gDiv <- ggplot(div, aes(Group, PI, fill=Group)) +
   geom_boxplot(width=0.5) +
@@ -71,12 +78,46 @@ gDiv <- ggplot(div, aes(Group, PI, fill=Group)) +
   theme(legend.position = "none") +
   ylab(expression(pi)) 
 
-#
-g <-  gLD + gDiv
+### Map
+world <- map_data("world")
+dat2 <- read.csv("data/meta/all1515.csv")
 
-  gg <- gAll / g 
+b <- as.data.frame(table(dat2$CountryOfOrigin))
+
+cn <- data.frame(region=unique(dat2$CountryOfOrigin))
+cn <- world[world$region %in% cn$region,]
+
+cn <- cn %>% 
+  group_by(region) %>% 
+  group_modify(~ data.frame(centroid(cbind(.x$long, .x$lat))))
+
+colnames(b)[1] <- "region"
+
+b <- merge(b, cn, by="region")
+colnames(b)[2] <- "n"
+
+b$lon[32] <- c(-100)
+b$lat[32] <- c(40)
+b$lon[27] <- 22
+b$lat[27] <- -30
+b$lon[6] <- -110
+b$lat[6] <- 55
+
+world <- world[world$lat>-55,]
+
+gm <- ggplot(world, aes(x = long, y = lat)) +
+  geom_polygon(aes(group = group), fill="white", colour = "lightgray", size=0.1) + 
+  theme(panel.background = element_rect(fill = 'lightblue'), legend.position = "top") +
+  geom_point(data=b, aes(x=lon, y=lat, size=n), colour="green4") + 
+  xlab("Longitude") + 
+  ylab("Latitude")
+
+### Merge all plots
+gB <-  gLD + gDiv
+gg <- gAll / gB
   
-  gg <- gg + plot_annotation(tag_levels = list(c("a", "", "b", "c")))
-  
-  ggsave(plot = gg, "results/plots/Fig2.png", width = 12, height = 10)
-  ggsave(plot = gg, "results/plots/Fig2.eps", width = 12, height = 10, device="eps")
+gAll <- gm / gg + plot_layout(heights = c(1,2))
+gAll <- gAll + plot_annotation(tag_levels = list(c("a", "b", "", "c", "d")))  
+
+ggsave(plot = gAll, "results/figures/Fig2.png", width = 15, height = 18)
+ggsave(plot = gAll, "results/figures/Fig2.eps", width = 15, height = 18, device=cairo_ps)
