@@ -25,6 +25,7 @@ dat <- fread("data/TableS1.csv")
 # Prepare data for PCA plot
 datO <- dat[dat$Group_As_On_Fig2=="Other",]
 datA <- dat[!dat$Group_As_On_Fig2=="Other",]
+datA$Group_As_On_Fig2[datA$Group_As_On_Fig2=="Wild relatives"] <- "Other wild relatives"
 
 dat2 <- rbind(datO, datA)
 dat2$Taxa <- ""
@@ -36,17 +37,21 @@ g1 <- ggplot() +
   geom_point(data=datA, aes(PC1, PC2, colour=Group_As_On_Fig2), size=1.5) +
   geom_text_repel(data=dat2, aes(PC1, PC2, label=Taxa), box.padding = 0.5, max.overlaps = Inf, size=4) + 
   xlab("PC1 (2.6%)") + ylab("PC2 (1.9%)") + 
-  scale_color_manual(values = my_pal, name="Group")
-  
+  scale_color_manual(values = my_pal, name="Group") +
+  theme(legend.spacing.y = unit(0.1, 'cm'),legend.position = "top") + 
+  guides(fill = guide_legend(byrow = TRUE))
+
 g2 <- ggplot() + 
   geom_point(data=datO, aes(PC2, PC3, colour=Group_As_On_Fig2), size=1.5, alpha=0.5) +
   geom_point(data=datA, aes(PC2, PC3, colour=Group_As_On_Fig2), size=1.5) +
   geom_text_repel(data=dat2, aes(PC2, PC3, label=Taxa), box.padding = 0.5, max.overlaps = Inf, size=4) + 
   xlab("PC2 (1.9%)") + ylab("PC3 (1.3%)") + 
-  scale_color_manual(values = my_pal, name="Group")
+  scale_color_manual(values = my_pal, name="Group") + 
+  theme(legend.spacing.y = unit(0.1, 'cm'),legend.position = "top") + 
+  guides(fill = guide_legend(byrow = TRUE))
 
 # Combine two PCA plot
-gAll <- g1 + g2 & theme(legend.position = "top") 
+gAll <- g1 + g2 & theme(legend.position = "top", legend.spacing.y = unit(0.1, 'cm')) 
 gAll <- gAll + plot_layout(guides = "collect")
 
 ### LD decay plot
@@ -62,7 +67,7 @@ gLD <- ggplot() +
                      breaks = 10^3 * c(50, 100, 150, 200)) + 
   xlab("Distance (Kb)") + 
   scale_color_manual(values = pal_d3()(6)[c(1,2,4,3,5,6)]) + 
-  theme(legend.position=c(.8, .8)) +
+  theme(legend.position=c(.8, .8), legend.spacing.y = unit(0.01, 'cm')) +
   scale_alpha_identity()
 
 ### Nucleotide diversity plot
@@ -121,3 +126,4 @@ gAll <- gAll + plot_annotation(tag_levels = list(c("a", "b", "", "c", "d")))
 
 ggsave(plot = gAll, "results/figures/Fig2.png", width = 15, height = 18)
 ggsave(plot = gAll, "results/figures/Fig2.eps", width = 15, height = 18, device=cairo_ps)
+#ggsave(plot = gAll, "results/figures/Fig2_2.eps", width = 180, height = 200, device=cairo_ps, units = "mm")
