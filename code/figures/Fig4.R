@@ -113,7 +113,7 @@ colnames(mads69SNPprop)[2] <- "SNP"
 
 gmads69prop <- ggplot(mads69SNPprop, aes(Group, value, fill=SNP)) +
   geom_col(colour="black") + 
-  theme(legend.position = "top", axis.text.x = element_text(angle = 15, vjust = 1.1, hjust = 1)) +
+  theme(legend.position = "top", axis.text.x = element_text(angle = 20, vjust = 1.1, hjust = 1)) +
   scale_fill_manual(values = my_pal[c(1,3)]) + 
   ylab("Freqency")
 
@@ -285,7 +285,7 @@ colnames(zcn8SNPprop)[2] <- "SNP"
 
 gzcn8SNPprop <- ggplot(zcn8SNPprop, aes(Group, value, fill=SNP)) +
   geom_col(colour="black") + 
-  theme(legend.position = "top", axis.text.x = element_text(angle = 15, vjust = 1.1, hjust = 1)) +
+  theme(legend.position = "top", axis.text.x = element_text(angle = 20, vjust = 1.1, hjust = 1)) +
   scale_fill_manual(values = my_pal[c(1,3)]) + 
   ylab("Freqency")
 
