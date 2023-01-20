@@ -2,7 +2,7 @@ This repository contains code use in the article:
 
 #  **A Common Resequencing-Based Genetic Marker Dataset for Global Maize Diversity**
 ![language: R](https://img.shields.io/badge/language-R-blue.svg)
-!https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white
+![](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white)
 
   ### Variant calling: 
 
