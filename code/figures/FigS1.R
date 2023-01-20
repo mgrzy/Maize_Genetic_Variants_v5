@@ -80,5 +80,10 @@ g2 <- ggplot() +
   theme(panel.background = element_rect(fill = 'lightblue'), legend.position = "top") + 
   scale_size(range=c(1,10), breaks = c(10,50,100,150,200))
 
+ggsave(plot=g1, filename = "results/figures/FigS0a.svg", width = 15, height = 10)
+ggsave(plot=g2, filename = "results/figures/FigS0b.svg", width = 15, height = 10)
+
 gg <- g1 | g2 
-gg + plot_annotation(tag_levels = "a")
+gg <- gg + plot_annotation(tag_levels = "a")
+
+ggsave(plot=gg, filename = "results/figures/FigS0.svg", width = 15, height = 10)

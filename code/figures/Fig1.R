@@ -92,7 +92,7 @@ g4 <- ggplot(indelMAF, aes(x=V5)) +
   ylab("Frequency")
 
 ### LD score
-res <- read.csv("../BigResults/maizesnpV5/LD/LDscore1MB.csv")
+res <- read.csv("../BigResults/maizesnpV5/LD/LDscore1MB.csv.gz")
 res <- na.omit(res)
 
 res$CHROM <- as.numeric(gsub("chr","", res$CHROM))
@@ -137,29 +137,40 @@ g5 <- ggplot() +
   xlab("Chromosome")
 
 ### Variants in genomic regions
-
 region <- read.csv("data/SNPregion.csv")
 region$Region[3] <- "CDS"
 region$Percent[3] <- 0.4
 
 region$Region<- factor(region$Region, levels = c("Upstream", "5_UTR", "CDS", "Intron", "3_UTR", "Downstream", "Intragenic"))
 
+region$F <- region$N/region$L
+
 g6 <- ggplot(region, aes(Region, Percent, fill=Region)) +
   geom_col() + 
   scale_fill_d3(label=c("Downstream", "5'UTR", "CDS", "Intron", "3'UTR", "Upstream", "Intragenic")) + 
-  theme(legend.position=c(0.35, 0.72), 
+  theme(#legend.position=c(0.35, 0.72),
         axis.text.x  = element_blank(), 
-        axis.ticks.x = element_blank()) + 
+        axis.ticks.x = element_blank(), legend.text = element_text(size = 12)) + 
   xlab("") + 
-  ylab("Proportion of all variants") + 
-  guides(fill=guide_legend(ncol=2))
+  ylab("Proportion of\n all variants") +
+  guides(fill=guide_legend(ncol=4), size=2)
+
+g7 <- ggplot(region, aes(Region, F * 1000, fill=Region)) +
+  geom_col() + 
+  scale_fill_d3(label=c("Downstream", "5'UTR", "CDS", "Intron", "3'UTR", "Upstream", "Intragenic")) + 
+  theme(axis.text.x  = element_blank(), 
+        axis.ticks.x = element_blank(), legend.position = "none") + 
+  xlab("") + 
+  ylab("Average variants\n per kilobase")
 
 
-gSNP <- g1 + g2 + plot_layout(widths = c(4,1))
-gIndel <- g3 + g4 + plot_layout(widths = c(4,1))
-gB <- g5 + g6 + plot_layout(widths = c(4,1))
+gSNP <- g1 + g2 + plot_layout(widths = c(4,1.25))
+gIndel <- g3 + g4 + plot_layout(widths = c(4,1.25))
+gP <-  guide_area() /(g6 + g7) + plot_layout(guides = "collect")
+gB <- g5 + gP + plot_layout(widths = c(4,1.25))
 gSNP / gIndel / gB + plot_annotation(tag_levels = "a")
 
 ###
 ggsave("results/figures/Fig1.eps", width = 20, height = 10, device="eps")
 ggsave("results/figures/Fig1.png", width = 20, height = 10, device="png")
+ggsave("results/figures/Fig1.pdf", width = 20, height = 10)

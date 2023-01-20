@@ -79,4 +79,4 @@ gGWAS2 <- ggplot() +
 gGWAS <- gGWAS1 / gGWAS2 + plot_annotation(tag_levels = "a")
 
 ggsave(plot = gGWAS, "results/figures/Fig3.png", width = 12, height = 10)
-ggsave(plot = gGWAS, "results/figures/Fig3.eps", width = 12, height = 10, device=cairo_ps)
+ggsave(plot = gGWAS, "results/figures/Fig3.pdf", width = 12, height = 10)

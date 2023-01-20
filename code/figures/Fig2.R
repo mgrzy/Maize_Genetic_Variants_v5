@@ -80,7 +80,7 @@ div$Group[div$Group=="Bugeater"] <- "WiDiv"
 gDiv <- ggplot(div, aes(Group, PI, fill=Group)) +
   geom_boxplot(width=0.5) +
   scale_fill_manual(values = pal_d3()(6)[c(1,2,4,3,5,6)]) +
-  theme(legend.position = "none") +
+  theme(legend.position = "none", axis.text.x = element_text(angle = 10)) +
   ylab(expression(pi)) 
 
 ### Map
@@ -126,4 +126,4 @@ gAll <- gAll + plot_annotation(tag_levels = list(c("a", "b", "", "c", "d")))
 
 ggsave(plot = gAll, "results/figures/Fig2.png", width = 15, height = 18)
 ggsave(plot = gAll, "results/figures/Fig2.eps", width = 15, height = 18, device=cairo_ps)
-#ggsave(plot = gAll, "results/figures/Fig2_2.eps", width = 180, height = 200, device=cairo_ps, units = "mm")
+ggsave(plot = gAll, "results/figures/Fig2.pdf", width = 15, height = 18)
