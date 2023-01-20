@@ -7,7 +7,7 @@
  * *code/HCCscrpts/1_Alignment/* - codes for alignment with SpeedSeeq
  * *code/HCCscrpts/2_HaplotypeCaller/* - codes to run HaplotypeCaller (GATK v. v.4.2.0.0)
  * *code/HCCscrpts/3_GenomicsDB/* - codes for to create  GenomicsDB datastores (GATK v. v.4.2.6.1)
- * *code/HCCscrpts/4_JointCalling/* - codes joint variant calling and producing VCF files
+ * *code/HCCscrpts/4_JointCalling/* - codes joint variant calling and producing VCF files (GATK v. v.4.2.6.1)
 
     
   ### Population analysis:
