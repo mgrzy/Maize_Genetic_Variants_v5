@@ -8,6 +8,15 @@
  * *code/HCCscrpts/2_HaplotypeCaller/* - codes to run HaplotypeCaller (GATK v. v.4.2.0.0)
  * *code/HCCscrpts/3_GenomicsDB/* - codes for to create  GenomicsDB datastores (GATK v. v.4.2.6.1)
  * *code/HCCscrpts/4_JointCalling/* - codes joint variant calling and producing VCF files (GATK v. v.4.2.6.1)
+ * *code/HCCscrpts/5_Filter_VCFs/* - codes for variant filtering with Hard-Filtering criteria
+ * *code/HCCscrpts/6_Merge_and_sort_VCFs/* - codes merging and sorting VCFs
+ * *code/HCCscrpts/6_Merge_and_sort_VCFs/* - codes subsetting high confidence variant set 
+ * *code/HCCscrpts/6_Merge_and_sort_VCFs/* - codes for imputing confidence variant set
+
+ 
+ ###
+ 
+
 
     
   ### Population analysis:
