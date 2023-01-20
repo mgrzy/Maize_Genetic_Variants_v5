@@ -4,7 +4,10 @@
 ![](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white)
 ![](https://img.shields.io/badge/r-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=white)
   ### Variant calling: 
- * *code/HCCscrpts/1_Alignment/* - code for alignment with SpeedSeeq
+ * *code/HCCscrpts/1_Alignment/* - codes for alignment with SpeedSeeq
+ * *code/HCCscrpts/2_HaplotypeCaller/* - codes to run HaplotypeCaller (GATK v. v.4.2.0.0)
+ * *code/HCCscrpts/3_GenomicsDB/* - codes for to create  GenomicsDB datastores (GATK v. v.4.2.6.1)
+ * *code/HCCscrpts/4_JointCalling/* - codes joint variant calling and producing VCF files (GATK v. v.4.2.6.1)
 
     
   ### Population analysis:
