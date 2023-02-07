@@ -4,6 +4,8 @@
 ![](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white)
 ![](https://img.shields.io/badge/r-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=white)
 
+### Scripts from paper: https://doi.org/10.1111/tpj.16123
+
 ### Variant calling: 
  * *code/HCCscrpts/1_Alignment/* - codes for alignment with SpeedSeeq
  * *code/HCCscrpts/2_HaplotypeCaller/* - codes to run HaplotypeCaller (GATK v. v.4.2.0.0)
